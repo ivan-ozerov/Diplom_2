@@ -1,6 +1,5 @@
-
 import requests
-from test_data import URLs, RequestHeaders
+from request_data import URLs, RequestHeaders
 
 
 class UserMethods:
@@ -21,7 +20,11 @@ class UserMethods:
         return response
     
     @staticmethod
-    def user_update(payload, access_token):
+    def user_update(payload, access_token=None):
         response = requests.patch(URLs.USER_URL, json=payload, headers=RequestHeaders.get_authorization_header(access_token))
         return response
     
+    @staticmethod
+    def get_user_info(access_token):
+        response = requests.get(url=URLs.USER_URL, headers=RequestHeaders.get_authorization_header(access_token))
+        return response

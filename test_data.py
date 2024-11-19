@@ -1,11 +1,4 @@
-class URLs:
-
-    #base URLs
-    MAIN_URL = "https://stellarburgers.nomoreparties.site/api/"
-    ORDERS_URL = MAIN_URL + "orders"
-    REGISTER_URL = MAIN_URL + "auth/register"
-    LOGIN_URL = MAIN_URL + "auth/login"
-    USER_URL = MAIN_URL + "auth/user"
+import helper
 
 
 class RequestRegisterData:
@@ -74,13 +67,34 @@ class RequestLoginData:
         },
     ]
         
+class RequestUserUpdateData:
+
+    new_string = 'upd2'
+    EACH_FIELD_AND_ALL__PAYLOAD = [
+        {
+        "email": f"{RequestRegisterData.CORRECT_CREDENTIALS__PAYLOAD['email']}{new_string}"
+        },
+        {
+        "name": f"{RequestRegisterData.CORRECT_CREDENTIALS__PAYLOAD['name']}{new_string}"
+        },
+        {
+        "password": f"{RequestRegisterData.CORRECT_CREDENTIALS__PAYLOAD['password']}{new_string}"
+        },
+        {
+        "email": f"{RequestRegisterData.CORRECT_CREDENTIALS__PAYLOAD['email']}{new_string}",
+        "name": f"{RequestRegisterData.CORRECT_CREDENTIALS__PAYLOAD['name']}{new_string}",
+        "password": f"{RequestRegisterData.CORRECT_CREDENTIALS__PAYLOAD['password']}{new_string}"
+        }
+    ]
+        
 class RequestOrderData:
 
     CORRECT__PAYLOAD = {
-        "ingredients": [
-            "60d3b41abdacab0026a733c6",
-            "609646e4dc916e00276b2870"
-        ]
+        "ingredients": helper.generate_ingredients()
+    }
+
+    WITHOUT_INGREDIENTS__PAYLOAD = {
+        "ingredients": []
     }
 
     INCORRECT_HASHES__PAYLOAD = {
@@ -90,25 +104,5 @@ class RequestOrderData:
         ]
     }
 
-class RequestHeaders:
-
-    @staticmethod
-    def get_authorization_header(access_token):
-        return {"Authorization": access_token}
     
-class ResponseData:
 
-    REGISTRATION__USER_ALREADY_EXIST__RESPONSE = {
-        "success": False,
-        "message": "User already exists"
-    }
-
-    REGISTRATION__ONE_FIELD_MISSING__RESPONSE = {
-        "success": False,
-        "message": "Email, password and name are required fields"
-    }
-
-    LOGIN__INCORRECT_CREDENTIALS__RESPONSE = {
-        'success': False, 
-        'message': 'email or password are incorrect'
-    }
